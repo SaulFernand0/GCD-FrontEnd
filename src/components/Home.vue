@@ -3,7 +3,7 @@
   <aside class="relative bg-sidebar w-2/12 hidden sm:block shadow-xl">
     <div class="p-6">
       <router-link
-        to="/list"
+        to="list"
         class="text-white text-3xl font-semibold uppercase hover:text-gray-300"
         >MENU</router-link
       >
@@ -25,7 +25,7 @@
         "
       >
       <router-link
-        to="/upload"
+        to="upload"
       >
       <i class="fas fa-plus mr-3"></i>
         Nuevo Archivo
@@ -35,7 +35,7 @@
 
     <nav class="text-white text-base font-semibold pt-3">
       <router-link
-        to="/list"
+        to="list"
         class="flex items-center active-nav-link text-white py-4 pl-6 nav-item"
       >
         <i class="fas fa-tachometer-alt mr-3"></i>
@@ -43,7 +43,7 @@
       </router-link>
 
       <router-link
-        to="/upload"
+        to="upload"
         class="
           flex
           items-center
@@ -60,7 +60,7 @@
       </router-link>
 
       <router-link
-        to="/email"
+        to="email"
         class="
           flex
           items-center
@@ -99,6 +99,12 @@
 </template>
 
 <script>
+  import client from '../api/client'
+  export default{
+    mounted(){
+      client.get("/").then(data=>console.log(data))
+    }
+  }
 </script>
 
 <style scoped>

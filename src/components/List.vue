@@ -7,47 +7,33 @@
             <thead class="bg-gray-50">
               <tr>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Nombre
+                  Destinatario
                 </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Tipo
+                  Titulo
                 </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  URL
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  ID Usuario
-                </th>
-                <th scope="col" class="relative px-6 py-3">
-                  <span class="sr-only">Edit</span>
+                  Mensaje
                 </th>
               </tr>
             </thead>
             
             <tbody class="bg-white divide-y divide-gray-200">
-              <tr v-for="person in people" :key="person.email">
+              <tr v-for="e in emails" :key="e">
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="flex items-center">
-                    <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">
-                        {{ person.name }}
-                      </div>
-                      <div class="text-sm text-gray-500">
-                        {{ person.email }}
-                      </div>
-                    </div>
-                  </div>
+                  <div class="text-sm text-gray-900">{{ e.destinatario }}</div>
                 </td>
-                
+
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">{{ person.title }}</div>
-                  <div class="text-sm text-gray-500">{{ person.department }}</div>
+                  <div class="text-sm text-gray-500">{{ e.titulo }}</div>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ person.role }}
+
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-500">{{ e.mensaje }}</div>
                 </td>
+
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <a href="#" class="text-indigo-600 hover:text-indigo-900">Eliminar</a>
+                  <button @click="delEmail(e.idcorreo)" class="text-indigo-600 hover:text-indigo-900">Eliminar</button>
                 </td>
               </tr>
             </tbody>
@@ -59,22 +45,29 @@
 </template>
 
 <script>
-    const people = [
-  {
-    nombre: ' ',
-    tipo: ' ',
-    url: ' ',
-    idusuario: ' '
-  }
-
-]
-
+import client from "../api/client"
 export default {
-  setup() {
-    return {
-      people,
-    }
+  data:()=>({
+    emails:[]
+  }),
+  mounted(){
+    this.getEmail()
   },
+  methods:{
+    delEmail(id){
+      client.delete("/api/email/delete/"+id).then(data=>{
+        console.log(data)
+        this.getEmail()
+      })
+    },
+    getEmail(){
+      client.get("api/email").then(data=>{
+      this.emails=data["data"]
+      console.log(this.emails) 
+    })
+    }
+    
+  }
 }
 </script>
 
